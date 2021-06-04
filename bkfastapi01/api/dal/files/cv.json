@@ -1,0 +1,42 @@
+{
+    "cvList": [
+        {
+            "id": 1,
+            "nombre": "Matias",
+            "apellido": "Furones",
+            "titulo": "Cloud Engineer | Automation",
+            "educacion": [
+                {
+                   "institucion": "Henry Ford",
+                    "titulo": "Tecnico Electro-mecanico",
+                    "grado": "Secundario",
+                    "inicio": "1997",
+                    "fin": "2001"
+                },
+                {
+                    "institucion": "UAI",
+                     "titulo": "Ingenieria en Sistemas",
+                     "grado": "Facultad",
+                     "inicio": "2011",
+                     "fin": "Actualidad"
+                 }
+            ],
+            "trabajos": [
+                {
+                    "Empresa": "EY",
+                    "cargo": "Cloud Engineer",
+                    "inicio": "feb-2020",
+                    "fin": "Actualidad",
+                    "descripcion": "Kubernetes as a Service (KaaS)"
+                },
+                {
+                    "Empresa": "YPF",
+                    "cargo": "Cloud Engineer",
+                    "inicio": "abr-2019",
+                    "fin": "ene-2020",
+                    "descripcion": "Kubernetes as a Service (KaaS)"
+                }
+            ]
+        }
+    ]
+}
