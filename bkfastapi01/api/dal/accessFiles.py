@@ -10,4 +10,5 @@ class accessFiles():
 
         with open(tmpFile, 'r') as cvJson:
             dataCvJson = json.load(cvJson)
+        cvJson.close()
         return dataCvJson

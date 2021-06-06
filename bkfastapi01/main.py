@@ -11,7 +11,7 @@ objCV = cv()
 #     return {"Hello": "World"}
 
 
-@app.get("/ping")
+@app.get("/api/ping")
 def get_ping() -> str:
     return "OK"
 

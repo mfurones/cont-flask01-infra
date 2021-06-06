@@ -2,7 +2,7 @@ FROM python:3.6
 
 EXPOSE 8000
 
-COPY ./* /usr/src/bkfastapi01
+COPY ./bkfastapi01/* /usr/src/bkfastapi01
 
 WORKDIR /usr/src/bkfastapi01
 RUN pip install --no-cache-dir -r requirements.txt

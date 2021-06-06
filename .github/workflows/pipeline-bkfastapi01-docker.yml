@@ -1,0 +1,44 @@
+name: "bkfastapi01 build docker pipeline"
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Build & push docker image to Artifactory
+    
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout bkfastapi01 folder
+        uses: Bhacaz/checkout-files@v1
+        with:
+          files: bkfastapi01
+          token: ${{ github.token }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          registry: mfurones.jfrog.io
+          username: ${{ secrets.ARTIFACTORY_USER }}
+          password: ${{ secrets.ARTIFACTORY_APIKEY }}
+
+#      - name: GitHub Action for Bash
+#        run: |
+#          pwd &&
+#          ls -la
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./bkfastapi01/dockerfile/dockerfile
+          push: true
+          tags: |
+            mfurones.jfrog.io/projfa01-docker-dev/bkfastapi01/bkfastapi01:latest
+            mfurones.jfrog.io/projfa01-docker-dev/bkfastapi01/bkfastapi01:${{ github.ref }}
