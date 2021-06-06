@@ -6,7 +6,7 @@ class accessFiles():
         self.path = Path(__file__).cwd()
 
     def fileCV(self):
-        tmpFile = self.path / "files/cv.json"
+        tmpFile = self.path / "api/dal/files/cv.json"
 
         with open(tmpFile, 'r') as cvJson:
             dataCvJson = json.load(cvJson)

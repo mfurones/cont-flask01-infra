@@ -6,12 +6,18 @@ app = FastAPI()
 objCV = cv()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+# @app.get("/")
+# def read_root():
+#     return {"Hello": "World"}
 
+
+@app.get("/ping")
+def get_ping() -> str:
+    return "OK"
 
 @app.get("/api/cv")
 def get_api_cv():
     
-    return objCV.get_cvs
+    return objCV.get_cvs()
+
+
