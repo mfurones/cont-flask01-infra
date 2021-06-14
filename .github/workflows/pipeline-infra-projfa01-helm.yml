@@ -27,9 +27,10 @@ jobs:
     steps:
 
       - name: checkout infrarpi folder
-        uses: Bhacaz/checkout-files@v1
+        uses: Bhacaz/checkout-files@v2
         with:
-          files: infrarpi/projfa01
+          repository: ${{ github.repository }}/infrarpi/projfa01
+          path: projfa01
           token: ${{ github.token }}
 
       - name: Install Helm 3
