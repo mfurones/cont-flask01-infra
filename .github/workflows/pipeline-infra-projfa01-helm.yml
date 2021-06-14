@@ -2,20 +2,19 @@ name: "infra NS & common objects Helm Chart pipeline"
 
 on:
   workflow_dispatch:
-
-inputs:
-  helm_version:
-    description: "Helm Version" 
-    default: 3.2.4
-    required: false
-  repository_tenant:
-    description: "Artifactory Repo Tenant Name" 
-    default: mfurones01.jfrog.io
-    required: false
-  repository:
-    description: "Artifactory Virtual Repo" 
-    default: projfa01-helm
-    required: false
+    inputs:
+      helm_version:
+        description: "Helm Version" 
+        default: 3.2.4
+        required: false
+      repository_tenant:
+        description: "Artifactory Repo Tenant Name" 
+        default: mfurones01.jfrog.io
+        required: false
+      repository:
+        description: "Artifactory Virtual Repo" 
+        default: projfa01-helm
+        required: false
 
 
 jobs:
@@ -35,15 +34,15 @@ jobs:
 
       - name: Install Helm 3
         run: |
-          wget https://get.helm.sh/helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz
-          tar -xvzf helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
+          wget https://get.helm.sh/helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz
+          tar -xvzf helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
           mv -f ./linux-amd64/helm ./
           rmdir ./linux-amd64
-          rm -rf "helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz"
+          rm -rf "helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz"
 
       - name: Config Helm with Artifactory
         run: |
-          ./helm repo add ${{ inputs.repository_dev }} https://${{ inputs.repository_tenant }}/artifactory/${{ inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
+          ./helm repo add ${{ github.event.inputs.repository_dev }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
           ./helm repo update
 
       - name: Debug Directory
