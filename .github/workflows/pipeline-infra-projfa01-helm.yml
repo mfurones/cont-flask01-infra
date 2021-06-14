@@ -35,11 +35,11 @@ jobs:
 
       - name: Install Helm 3
         run: |
-          wget https://get.helm.sh/helm-v${{ .inputs.helm_version }}-linux-amd64.tar.gz
-          tar -xvzf helm-v${{ .inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
+          wget https://get.helm.sh/helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz
+          tar -xvzf helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
           mv -f ./linux-amd64/helm ./
           rmdir ./linux-amd64
-          rm -rf "helm-v${{ .inputs.helm_version }}-linux-amd64.tar.gz"
+          rm -rf "helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz"
 
       - name: Config Helm with Artifactory
         run: |
