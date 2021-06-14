@@ -50,15 +50,16 @@ jobs:
           pwd
           ls -la
 
+      - name: Debug Directory
+        run: |
+          echo $GITHUB_RUN_ID   
+
       - name: Helm Package 
         run: |
-          ./helm package infrarpi/projfa01 --version $GITHUB_RUN_ID --destination ./
+          ./helm package infrarpi/projfa01 --version 0.1.0 --destination ./
 
       - name: Debug Directory
         run: |
           pwd
           ls -la
 
-      - name: Debug Directory
-        run: |
-          echo $GITHUB_RUN_ID        
