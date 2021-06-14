@@ -29,8 +29,7 @@ jobs:
       - name: checkout infrarpi folder
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.repository }}/infrarpi/projfa01
-          path: projfa01
+          path: infrarpi/projfa01
           token: ${{ github.token }}
 
       - name: Install Helm 3
@@ -50,3 +49,16 @@ jobs:
         run: |
           pwd
           ls -la
+
+      - name: Helm Package 
+        run: |
+          ./helm package infrarpi/projfa01 --version $GITHUB_RUN_ID --destination ./
+
+      - name: Debug Directory
+        run: |
+          pwd
+          ls -la
+
+      - name: Debug Directory
+        run: |
+          echo $GITHUB_RUN_ID        
