@@ -42,7 +42,7 @@ jobs:
 
       - name: Config Helm with Artifactory
         run: |
-          ./helm repo add ${{ github.event.inputs.repository_dev }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username "${{ secrets.ARTIFACTORY_USER }}" --password "${{ secrets.ARTIFACTORY_APIKEY }}"
+          ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
           ./helm repo update
 
       - name: Debug Directory
