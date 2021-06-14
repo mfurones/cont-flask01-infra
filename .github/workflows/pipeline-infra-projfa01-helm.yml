@@ -29,7 +29,7 @@ jobs:
       - name: checkout infrarpi folder
         uses: Bhacaz/checkout-files@v1
         with:
-          files: infrarpi/projfs01
+          files: infrarpi/projfa01
           token: ${{ github.token }}
 
       - name: Install Helm 3
