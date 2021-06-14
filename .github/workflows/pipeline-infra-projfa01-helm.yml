@@ -48,7 +48,7 @@ jobs:
       - name: Debug Directory
         run: |
           pwd
-          ls -la
+          ls -la infrarpi
 
       - name: Debug Directory
         run: |
