@@ -27,7 +27,7 @@ jobs:
     steps:
 
       - name: checkout infrarpi folder
-        uses: Bhacaz/checkout-files@v2
+        uses: actions/checkout@v2
         with:
           repository: ${{ github.repository }}/infrarpi/projfa01
           path: projfa01
