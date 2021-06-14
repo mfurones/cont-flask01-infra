@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dbmysql01
+version: 0.1.0
+description: Helm chart Database MySql
+type: application
+appVersion: "0.1"

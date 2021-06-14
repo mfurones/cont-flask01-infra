@@ -1,0 +1,54 @@
+name: "infra NS & common objects Helm Chart pipeline"
+
+on:
+  workflow_dispatch:
+    inputs:
+      helm_version:
+        description: "Helm Version" 
+        default: 3.2.4
+        required: false
+      repository_tenant:
+        description: "Artifactory Repo Tenant Name" 
+        default: mfurones01.jfrog.io
+        required: false
+      repository_dev:
+        description: "Artifactory Repo dev" 
+        default: projfa01-helm-dev
+        required: false
+      repository_prod:
+        description: "Artifactory Repo dev" 
+        default: projfa01-helm-prod
+        required: false
+
+jobs:
+
+  build:
+    name: Build & push Helm Chart to Artifactory
+    
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout infrarpi folder
+        uses: Bhacaz/checkout-files@v1
+        with:
+          files: infrarpi/projfs01
+          token: ${{ github.token }}
+
+
+#      - name: GitHub Action for Bash
+#        run: |
+#          pwd &&
+#          ls -la
+
+      - name: Get Helm 3
+        run: |
+          wget https://get.helm.sh/helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz
+          tar -xvzf helm-v${{ inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
+          mv -f ./linux-amd64/helm ./
+          rmdir ./linux-amd64
+
+      - name: Get Helm 3
+        run: |
+          ./helm repo add ${{ inputs.repository_dev }} https://${{ inputs.repository_tenant }}/artifactory/${{ inputs.repository_dev }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
+          ./helm repo update

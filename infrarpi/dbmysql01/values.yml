@@ -1,0 +1,24 @@
+db:
+  name: mysql
+  ports:
+    containerPort: 3306
+    name: mysqlport
+  volume:
+    mount:
+      name: mysql-persistent-storage
+      mountPath: /var/lib/mysql
+    persistent:
+      name: mysql-pv-volume
+      storage: 3Gi
+      path: "/mnt/data"
+    claim:
+      name: mysql-pv-claim
+
+image:
+  repository: mysql
+  name: mysql
+  tag: 5.6
+  pullPolicy: IfNotPresent
+
+service:
+  name: mysql-service
