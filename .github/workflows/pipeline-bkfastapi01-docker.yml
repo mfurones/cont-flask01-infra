@@ -2,7 +2,7 @@ name: "bkfastapi01 build docker pipeline"
 
 on:
   workflow_dispatch:
-    intputs:
+    inputs:
       repository_tenant:
         description: "Artifactory Repo Tenant Name" 
         default: mfurones01.jfrog.io
