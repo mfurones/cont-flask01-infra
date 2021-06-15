@@ -50,4 +50,4 @@ jobs:
           push: true
           tags: |
             ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:latest
-            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01:${{ github.ref }}
+            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01:${{ GITHUB_RUN_ID }}
