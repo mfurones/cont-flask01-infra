@@ -31,6 +31,7 @@ jobs:
         with:
           files: infrarpi/projfa01
           token: ${{ github.token }}
+
       - name: Install Helm 3
         run: |
           wget https://get.helm.sh/helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz
@@ -54,4 +55,4 @@ jobs:
 
       - name: Upload Package to Artifactory
         run: |
-          jfrog rt u projfa01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev
+          jfrog rt u projfa01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev/projfa01
