@@ -44,17 +44,14 @@ jobs:
           ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
           ./helm repo update
 
-      - name: Debug Directory
-        run: |
-          pwd
-          ls -la infrarpi/projfa01
-
       - name: Helm Package 
         run: |
           ./helm package infrarpi/projfa01 --version $GITHUB_RUN_ID --destination ./
 
-      - name: Debug Directory
-        run: |
-          pwd
-          ls -la
+      - uses: jfrog/setup-jfrog-cli@v1
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
 
+      - name: Upload Package to Artifactory
+        run: |
+          jfrog rt u projfa01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev
