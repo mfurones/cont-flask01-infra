@@ -21,6 +21,11 @@ jobs:
 
     steps:
 
+      - name: Def environments
+        run: |
+          echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
+          echo "$GitHub Run Id: {{ env.githubrunid }}""
+
       - name: checkout bkfastapi01 folder
         uses: Bhacaz/checkout-files@v1
         with:
@@ -50,4 +55,4 @@ jobs:
           push: true
           tags: |
             ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:latest
-            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01:${GITHUB_RUN_ID}
+            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01:${{ env.githubrunid }}
