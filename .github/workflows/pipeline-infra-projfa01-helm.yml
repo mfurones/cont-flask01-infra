@@ -5,7 +5,7 @@ on:
     inputs:
       helm_version:
         description: "Helm Version" 
-        default: 3.2.4
+        default: 3.5.4
         required: false
       repository_tenant:
         description: "Artifactory Repo Tenant Name" 

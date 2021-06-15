@@ -42,11 +42,6 @@ jobs:
           username: ${{ secrets.ARTIFACTORY_USER }}
           password: ${{ secrets.ARTIFACTORY_APIKEY }}
 
-#      - name: GitHub Action for Bash
-#        run: |
-#          pwd &&
-#          ls -la
-
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -55,4 +50,4 @@ jobs:
           push: true
           tags: |
             ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:latest
-            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01:${{ env.githubrunid }}
+            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:${{ env.githubrunid }}
