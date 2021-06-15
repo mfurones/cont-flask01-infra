@@ -24,7 +24,7 @@ jobs:
       - name: Def environments
         run: |
           echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
-          echo "$GitHub Run Id: {{ env.githubrunid }}""
+          echo "GitHub Run Id: {{ env.githubrunid }}"
 
       - name: checkout bkfastapi01 folder
         uses: Bhacaz/checkout-files@v1
