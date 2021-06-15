@@ -19,7 +19,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v1
-      - uses: ./.github/test-nested
+      - uses: ./.github/templates/test-nested
         with:
           var_some: ${{ github.event.inputs.var_name }}
 
