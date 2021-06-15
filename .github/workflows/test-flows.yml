@@ -1,0 +1,29 @@
+name: "to test pipeline"
+
+on:
+  workflow_dispatch:
+    inputs:
+      var_name:
+        description: "A description" 
+        default: helloworld
+        required: false
+
+
+jobs:
+
+  build:
+    name: like a stage
+    
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v1
+      - uses: ./.github/test-nested
+        with:
+          var_some: ${{ github.event.inputs.var_name }}
+
+      - name: run something
+        run: |
+          pwd
+          ls -la

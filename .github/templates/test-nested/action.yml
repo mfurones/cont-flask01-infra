@@ -1,0 +1,11 @@
+inputs:
+    var_some: 
+        description: 'Something you can parametrize'
+        default: 'something'
+runs:
+ using: "composite"
+ steps: 
+   - run: echo "Said in bash... ${{ inputs.var_some }}"
+     shell: bash
+   - run: echo "Said in Powershell... ${{ inputs.var_some }}"
+     shell: pwsh
