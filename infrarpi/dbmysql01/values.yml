@@ -13,6 +13,7 @@ db:
       path: "/mnt/data"
     claim:
       name: mysql-pv-claim
+  password: ""
 
 image:
   repository: mysql
