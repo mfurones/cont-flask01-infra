@@ -1,4 +1,4 @@
-name: "infra NS & common objects Helm Chart pipeline"
+name: "infra/projfa01 NS & common objects Helm Chart pipeline"
 
 on:
   workflow_dispatch:
