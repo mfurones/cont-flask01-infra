@@ -55,4 +55,4 @@ jobs:
 
       - name: Upload Package to Artifactory
         run: |
-          jfrog rt u projfa01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev/projfa01
+          jfrog rt u projfa01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev/projfa01/
