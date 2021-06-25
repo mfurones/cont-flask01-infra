@@ -3,19 +3,10 @@ name: "infra/dbmysql01 Helm Chart pipeline"
 on:
   workflow_dispatch:
     inputs:
-      helm_version:
-        description: "Helm Version" 
-        default: 3.5.4
+      var_def:
+        description: "Test input value" 
+        default: something
         required: false
-      repository_tenant:
-        description: "Artifactory Repo Tenant Name" 
-        default: mfurones01.jfrog.io
-        required: false
-      repository:
-        description: "Artifactory Virtual Repo" 
-        default: projfa01-helm
-        required: false
-
 
 jobs:
 
@@ -26,33 +17,23 @@ jobs:
 
     steps:
 
-      - name: checkout front folder
-        uses: Bhacaz/checkout-files@v1
+      - name: Def environments
+        run: |
+          echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
+          echo "GitHub Run Id: {{ env.githubrunid }}"
+
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Action Helm create-push-package
+        uses: ./.github/templates/create-push-package
         with:
-          files: infrarpi/dbmysql01
-          token: ${{ github.token }}
+          repository: "projfa01-helm"
+          sol_name: "dbmysql01"
+          sol_version: "{{ env.githubrunid }}"
+          folder_path: "infrarpi"
+          environment: "dev"
 
-      - name: Install Helm 3
-        run: |
-          wget https://get.helm.sh/helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz
-          tar -xvzf helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
-          mv -f ./linux-amd64/helm ./
-          rmdir ./linux-amd64
-          rm -rf "helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz"
 
-      - name: Config Helm with Artifactory
-        run: |
-          ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
-          ./helm repo update
 
-      - name: Helm Package 
-        run: |
-          ./helm package infrarpi/dbmysql01 --version $GITHUB_RUN_ID --destination ./
 
-      - uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
-
-      - name: Upload Package to Artifactory
-        run: |
-          jfrog rt u dbmysql01-$GITHUB_RUN_ID.tgz ${{ github.event.inputs.repository }}-dev/dbmysql01/

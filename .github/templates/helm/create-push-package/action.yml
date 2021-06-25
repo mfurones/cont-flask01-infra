@@ -1,0 +1,63 @@
+inputs:
+  helm_version:
+    description: "Helm Version" 
+    default: 3.5.4
+    required: false
+  repository_tenant:
+    description: "Artifactory Repo Tenant Name" 
+    default: mfurones01.jfrog.io
+    required: false
+  repository:
+    description: "Artifactory Virtual Repo" 
+    default: projfa01-helm
+    required: false
+  sol_name:
+    description: "Solution Name" 
+    default: ""
+    required: true
+  sol_version:
+    description: "Solution Version" 
+    default: 0.1.0
+    required: true
+  folder_path:
+    description: "Folder Path repo" 
+    default: ""
+    required: true
+  environment:
+    description: "Environment" 
+    default: ""
+    required: true
+
+runs:
+  using: "composite"
+  steps: 
+  - name: checkout front folder
+    uses: Bhacaz/checkout-files@v1
+    with:
+      files: ${{ github.event.inputs.folder_path }}
+      token: ${{ github.token }}
+
+  - name: Install Helm 3
+    run: |
+      wget https://get.helm.sh/helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz
+      tar -xvzf helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
+      mv -f ./linux-amd64/helm ./
+      rmdir ./linux-amd64
+      rm -rf "helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz"
+
+  - name: Config Helm with Artifactory
+    run: |
+      ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
+      ./helm repo update
+
+  - name: Helm Package 
+    run: |
+      ./helm package ${{ github.event.inputs.folder_path }}/${{ github.event.inputs.sol_name }} --version ${{ github.event.inputs.sol_version }} --destination ./
+
+  - uses: jfrog/setup-jfrog-cli@v1
+    env:
+      JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+
+  - name: Upload Package to Artifactory
+    run: |
+      jfrog rt u ${{ github.event.inputs.sol_name }}-${{ github.event.inputs.sol_version }}.tgz ${{ github.event.inputs.repository }}-${{ github.event.inputs.environment }}/${{ github.event.inputs.sol_name }}/
