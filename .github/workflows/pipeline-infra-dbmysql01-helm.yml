@@ -22,6 +22,16 @@ jobs:
           echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
           echo "GitHub Run Id: {{ env.githubrunid }}"
 
+      - name: checkout Solution folder
+        uses: Bhacaz/checkout-files@v1
+        with:
+          files: "infrarpi"
+          token: ${{ github.token }}
+
+      - uses: jfrog/setup-jfrog-cli@v1
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+
       - name: Checkout Repo
         uses: actions/checkout@v1
 
@@ -35,7 +45,7 @@ jobs:
           environment: "dev"
           art_user: ${{ secrets.ARTIFACTORY_USER }}
           art_apikey: ${{ secrets.ARTIFACTORY_APIKEY }}
-          art_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+
 
 
 

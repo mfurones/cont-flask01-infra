@@ -35,19 +35,10 @@ inputs:
     description: "Artifactory apiKey" 
     default: ""
     required: true
-  art_token:
-    description: "Artifactory Token" 
-    default: ""
-    required: true
 
 runs:
   using: "composite"
   steps: 
-  - name: checkout front folder
-    uses: Bhacaz/checkout-files@v1
-    with:
-      files: ${{ github.event.inputs.folder_path }}
-      token: ${{ github.token }}
 
   - name: Install Helm 3
     run: |
@@ -65,10 +56,6 @@ runs:
   - name: Helm Package 
     run: |
       ./helm package ${{ github.event.inputs.folder_path }}/${{ github.event.inputs.sol_name }} --version ${{ github.event.inputs.sol_version }} --destination ./
-
-  - uses: jfrog/setup-jfrog-cli@v1
-    env:
-      JF_ARTIFACTORY_1: ${{ github.event.inputs.art_token }}
 
   - name: Upload Package to Artifactory
     run: |
