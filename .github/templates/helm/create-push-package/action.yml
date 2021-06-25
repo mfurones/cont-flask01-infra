@@ -41,7 +41,8 @@ runs:
   steps: 
 
   - name: Install Helm 3
-    shell: |
+    shell: bash
+    run: |
       wget https://get.helm.sh/helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz
       tar -xvzf helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz linux-amd64/helm
       mv -f ./linux-amd64/helm ./
@@ -49,14 +50,17 @@ runs:
       rm -rf "helm-v${{ github.event.inputs.helm_version }}-linux-amd64.tar.gz"
 
   - name: Config Helm with Artifactory
-    shell: |
+    shell: bash
+    run: |
       ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ github.event.inputs.art_user }} --password ${{ github.event.inputs.art_apikey }}
       ./helm repo update
 
   - name: Helm Package 
-    shell: |
+    shell: bash
+    run: |
       ./helm package ${{ github.event.inputs.folder_path }}/${{ github.event.inputs.sol_name }} --version ${{ github.event.inputs.sol_version }} --destination ./
 
   - name: Upload Package to Artifactory
-    shell: |
+    shell: bash
+    run: |
       jfrog rt u ${{ github.event.inputs.sol_name }}-${{ github.event.inputs.sol_version }}.tgz ${{ github.event.inputs.repository }}-${{ github.event.inputs.environment }}/${{ github.event.inputs.sol_name }}/
