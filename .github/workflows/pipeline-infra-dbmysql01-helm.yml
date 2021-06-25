@@ -30,9 +30,12 @@ jobs:
         with:
           repository: "projfa01-helm"
           sol_name: "dbmysql01"
-          sol_version: "{{ env.githubrunid }}"
+          sol_version: ${{ env.githubrunid }}
           folder_path: "infrarpi"
           environment: "dev"
+          art_user: ${{ secrets.ARTIFACTORY_USER }}
+          art_apikey: ${{ secrets.ARTIFACTORY_APIKEY }}
+          art_token: ${{ secrets.ARTIFACTORY_TOKEN }}
 
 
 

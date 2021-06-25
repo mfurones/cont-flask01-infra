@@ -27,6 +27,18 @@ inputs:
     description: "Environment" 
     default: ""
     required: true
+  art_user:
+    description: "Artifactory User" 
+    default: ""
+    required: true
+  art_apikey:
+    description: "Artifactory apiKey" 
+    default: ""
+    required: true
+  art_token:
+    description: "Artifactory Token" 
+    default: ""
+    required: true
 
 runs:
   using: "composite"
@@ -47,7 +59,7 @@ runs:
 
   - name: Config Helm with Artifactory
     run: |
-      ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ secrets.ARTIFACTORY_USER }} --password ${{ secrets.ARTIFACTORY_APIKEY }}
+      ./helm repo add ${{ github.event.inputs.repository }} https://${{ github.event.inputs.repository_tenant }}/artifactory/${{ github.event.inputs.repository }} --username ${{ github.event.inputs.art_user }} --password ${{ github.event.inputs.art_apikey }}
       ./helm repo update
 
   - name: Helm Package 
@@ -56,7 +68,7 @@ runs:
 
   - uses: jfrog/setup-jfrog-cli@v1
     env:
-      JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+      JF_ARTIFACTORY_1: ${{ github.event.inputs.art_token }}
 
   - name: Upload Package to Artifactory
     run: |
