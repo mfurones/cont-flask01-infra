@@ -19,6 +19,8 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    if: !startsWith('refs/tags/test01-v*')
+
     steps:
 
 #      - uses: actions/checkout@v1
@@ -28,5 +30,27 @@ jobs:
 
       - name: run something
         run: |
+          echo "No tiene un tag!!!"
           echo "referencia: ${{ github.ref }}"
-          echo "referencia head: ${{ github.head_ref }}"
+
+jobs:
+
+  build:
+    name: like a stage
+    
+    runs-on: ubuntu-latest
+    
+    if: startsWith('refs/tags/test01-v*')
+
+    steps:
+
+#      - uses: actions/checkout@v1
+#      - uses: ./.github/templates/test-nested
+#        with:
+#          var_some: ${{ github.event.inputs.var_name }}
+
+      - name: run something
+        run: |
+          echo "Siiiii tiene un tag!!!"
+          echo "referencia: ${{ github.ref }}"
+
