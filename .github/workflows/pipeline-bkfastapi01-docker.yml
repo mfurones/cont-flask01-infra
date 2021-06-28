@@ -3,14 +3,18 @@ name: "bkfastapi01 build docker pipeline"
 on:
   workflow_dispatch:
     inputs:
-      repository_tenant:
-        description: "Artifactory Repo Tenant Name" 
-        default: mfurones01.jfrog.io
+      var_def:
+        description: "Test input value" 
+        default: something
         required: false
-      repository:
-        description: "Artifactory Virtual Repo" 
-        default: projfa01-docker
-        required: false
+
+env:
+  repository_tenant: mfurones01.jfrog.io
+  repository: projfa01-docker
+  sol_name: "bkfastapi01"
+  sol_version: $GITHUB_RUN_ID
+  folder_path: "bkfastapi01"
+
 
 jobs:
 
@@ -19,17 +23,20 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    env:
+      environment: "dev"
+      
     steps:
 
       - name: Def environments
         run: |
-          echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
-          echo "GitHub Run Id: {{ env.githubrunid }}"
+          echo "sol_version=$GITHUB_RUN_ID" >> $GITHUB_ENV
+          echo "GitHub Run Id: {{ env.sol_version }}"
 
       - name: checkout bkfastapi01 folder
         uses: Bhacaz/checkout-files@v1
         with:
-          files: bkfastapi01
+          files: ${{ env.folder_path }}
           token: ${{ github.token }}
 
       - name: Set up Docker Buildx
@@ -38,7 +45,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
-          registry: ${{ github.event.inputs.repository_tenant }}
+          registry: ${{ env.repository_tenant }}
           username: ${{ secrets.ARTIFACTORY_USER }}
           password: ${{ secrets.ARTIFACTORY_APIKEY }}
 
@@ -46,8 +53,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./bkfastapi01/dockerfile/dockerfile
+          file: ./${{ env.folder_path }}/dockerfile/dockerfile
           push: true
           tags: |
-            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:latest
-            ${{ github.event.inputs.repository_tenant }}/${{ github.event.inputs.repository }}-dev/bkfastapi01/bkfastapi01:${{ env.githubrunid }}
+            ${{ env.repository_tenant }}/${{ env.repository }}-${{ env.environment }}/${{ env.folder_path }}/${{ env.sol_name }}:latest
+            ${{ env.repository_tenant }}/${{ env.repository }}-${{ env.environment }}/${{ env.folder_path }}/${{ env.sol_name }}:${{ env.sol_version }}

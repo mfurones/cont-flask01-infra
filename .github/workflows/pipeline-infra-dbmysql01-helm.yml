@@ -8,6 +8,11 @@ on:
         default: something
         required: false
 
+env:
+  repository: "projfa01-helm"
+  sol_name: "dbmysql01"
+  folder_path: "infrarpi"
+
 jobs:
 
   build:
@@ -15,17 +20,14 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    env:
+      environment: "dev"
+
     steps:
 
       - uses: jfrog/setup-jfrog-cli@v1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
-
-      # - name: checkout Solution folder
-      #   uses: Bhacaz/checkout-files@v1
-      #   with:
-      #     files: "infrarpi"
-      #     token: ${{ github.token }}
 
       - name: Checkout Repo
         uses: actions/checkout@v1
@@ -33,11 +35,11 @@ jobs:
       - name: Action Helm create-push-package
         uses: ./.github/templates/helm/create-push-package
         with:
-          repository: "projfa01-helm"
-          sol_name: "dbmysql01"
+          repository: ${{ env.repository }}
+          sol_name: ${{ env.sol_name }}
           sol_version: $GITHUB_RUN_ID
-          folder_path: "infrarpi"
-          environment: "dev"
+          folder_path: ${{ env.folder_path }}
+          environment: ${{ env.environment }}
           art_user: ${{ secrets.ARTIFACTORY_USER }}
           art_apikey: ${{ secrets.ARTIFACTORY_APIKEY }}
 
