@@ -60,6 +60,7 @@ runs:
     run: |
       pwd
       ls -la
+      echo "la version es: ${{ inputs.sol_version }}"
 
   - name: Helm Package 
     shell: bash
