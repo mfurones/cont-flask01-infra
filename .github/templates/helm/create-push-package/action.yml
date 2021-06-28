@@ -55,13 +55,6 @@ runs:
       ./helm repo add ${{ inputs.repository }} https://${{ inputs.repository_tenant }}/artifactory/${{ inputs.repository }} --username ${{ inputs.art_user }} --password ${{ inputs.art_apikey }}
       ./helm repo update
 
-  - name: run something 
-    shell: bash
-    run: |
-      pwd
-      ls -la
-      echo "la version es: ${{ inputs.sol_version }}"
-
   - name: Helm Package 
     shell: bash
     run: |

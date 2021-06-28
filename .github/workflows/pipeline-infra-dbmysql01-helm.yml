@@ -17,20 +17,15 @@ jobs:
 
     steps:
 
-      - name: Def environments
-        run: |
-          echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
-          echo "GitHub Run Id: {{ env.githubrunid }}"
-
-      - name: checkout Solution folder
-        uses: Bhacaz/checkout-files@v1
-        with:
-          files: "infrarpi"
-          token: ${{ github.token }}
-
       - uses: jfrog/setup-jfrog-cli@v1
         env:
           JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+
+      # - name: checkout Solution folder
+      #   uses: Bhacaz/checkout-files@v1
+      #   with:
+      #     files: "infrarpi"
+      #     token: ${{ github.token }}
 
       - name: Checkout Repo
         uses: actions/checkout@v1
@@ -40,7 +35,7 @@ jobs:
         with:
           repository: "projfa01-helm"
           sol_name: "dbmysql01"
-          sol_version: ${{ env.githubrunid }}
+          sol_version: $GITHUB_RUN_ID
           folder_path: "infrarpi"
           environment: "dev"
           art_user: ${{ secrets.ARTIFACTORY_USER }}
