@@ -20,7 +20,7 @@ jobs:
       - name: Def environments variables
         run: |
           echo "githubrunid=$GITHUB_RUN_ID" >> $GITHUB_ENV
-          echo "GitHub Run Id: {{ env.githubrunid }}"
+          echo "GitHub Run Id: ${{ github.event.env.githubrunid }}"
 
       - name: jFrog CLI setup
         uses: jfrog/setup-jfrog-cli@v1
@@ -41,7 +41,7 @@ jobs:
         with:
           repository: "projfa01-helm"
           sol_name: "projfa01"
-          sol_version: "{{ env.githubrunid }}"
+          sol_version: "${{ github.event.env.githubrunid }}"
           folder_path: "infrarpi"
           environment: "dev"
           art_user: ${{ secrets.ARTIFACTORY_USER }}
