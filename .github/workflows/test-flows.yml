@@ -19,7 +19,7 @@ jobs:
     
     runs-on: ubuntu-latest
 
-    if: ${{ !startsWith('refs/tags/test01-v*', github.ref) }}
+    if: ${{ !startsWith(github.ref, 'refs/tags/test01-v*') }}
 
     steps:
 
@@ -38,7 +38,7 @@ jobs:
     
     runs-on: ubuntu-latest
     
-    if: ${{ startsWith('refs/tags/test01-v*', github.ref) }}
+    if: ${{ startsWith(github.ref, 'refs/tags/test01-v*') }}
 
     steps:
 
