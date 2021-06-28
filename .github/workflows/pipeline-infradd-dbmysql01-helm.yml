@@ -1,4 +1,4 @@
-name: "infra/dbmysql01 Helm Chart pipeline"
+name: "infradd/dbmysql01 Helm Chart pipeline"
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ on:
 env:
   repository: "projfa01-helm"
   sol_name: "dbmysql01"
-  folder_path: "infrarpi"
+  folder_path: "infradd"
 
 jobs:
 

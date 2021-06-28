@@ -1,0 +1,88 @@
+name: "infradd/projfa01 NS & common objects Helm Chart pipeline"
+
+on:
+  workflow_dispatch:
+    inputs:
+      var_def:
+        description: "Test input value" 
+        default: something
+        required: false
+  push:
+    tags:
+      - infradd-projfa01-v*
+
+env:
+  repository: "projfa01-helm"
+  sol_name: "projfa01"
+  folder_path: "infradd"
+
+jobs:
+
+  stage-dev:
+    name: Build & push Helm Chart to Artifactory Dev
+    
+    if: ${{ !startsWith(github.ref, '${{ env.folder_path }}-${{ env.sol-name }}-v') }}
+
+    runs-on: ubuntu-latest
+
+    env:
+      environment: "dev"
+
+    steps:
+
+      - name: jFrog CLI setup
+        uses: jfrog/setup-jfrog-cli@v1
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Action Helm create-push-package
+        uses: ./.github/templates/helm/create-push-package
+        with:
+          repository: ${{ env.repository }}
+          sol_name: ${{ env.sol_name }}
+          sol_version: $GITHUB_RUN_ID
+          folder_path: ${{ env.folder_path }}
+          environment: ${{ env.environment }}
+          art_user: ${{ secrets.ARTIFACTORY_USER }}
+          art_apikey: ${{ secrets.ARTIFACTORY_APIKEY }}
+
+  stage-prod:
+    name: Build & push Helm Chart to Artifactory Dev
+    
+    if: ${{ startsWith(github.ref, '${{ env.folder_path }}-${{ env.sol-name }}-v') }}
+
+    runs-on: ubuntu-latest
+
+    env:
+      environment: "prod"
+
+    steps:
+
+      - name: Set env variables
+        shell: pwsh
+        run: |
+          
+
+
+
+      - name: jFrog CLI setup
+        uses: jfrog/setup-jfrog-cli@v1
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_TOKEN }}
+
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Action Helm create-push-package
+        uses: ./.github/templates/helm/create-push-package
+        with:
+          repository: ${{ env.repository }}
+          sol_name: ${{ env.sol_name }}
+          sol_version: $GITHUB_RUN_ID
+          folder_path: ${{ env.folder_path }}
+          environment: ${{ env.environment }}
+          art_user: ${{ secrets.ARTIFACTORY_USER }}
+          art_apikey: ${{ secrets.ARTIFACTORY_APIKEY }}
