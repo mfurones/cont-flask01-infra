@@ -61,5 +61,6 @@ jobs:
           $Matches[2]
           echo "var_githubref=${Matches}[2]" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
           echo "gitHub Ref: ${{ env.var_githubref }}"
+          get-content -path $env:GITHUB_ENV
 
 
