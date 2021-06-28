@@ -56,7 +56,7 @@ jobs:
           echo "Siiiii tiene un tag!!!"
           echo "referencia: ${{ github.ref }}"
           $rx = '^(refs\/tags\/test01-v)([0-9]+.[0-9]+.[0-9]+)$'
-          ${{ github.ref }} -match $rx
+          "${{ github.ref }}" -match $rx
           $Matches
           echo "var_githubref=$Matches[2]" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
           echo "gitHub Ref: ${{ env.var_githubref }}"
