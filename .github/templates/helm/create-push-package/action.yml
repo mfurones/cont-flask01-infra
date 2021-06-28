@@ -55,7 +55,8 @@ runs:
       ./helm repo add ${{ inputs.repository }} https://${{ inputs.repository_tenant }}/artifactory/${{ inputs.repository }} --username ${{ inputs.art_user }} --password ${{ inputs.art_apikey }}
       ./helm repo update
 
-  - name: run something
+  - name: run something 
+    shell: bash
     run: |
       pwd
       ls -la
