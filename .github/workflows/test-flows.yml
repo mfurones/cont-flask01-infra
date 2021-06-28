@@ -14,12 +14,12 @@ on:
 
 jobs:
 
-  build:
-    name: like a stage
+  jobTest1:
+    name: Testing the first job
     
     runs-on: ubuntu-latest
 
-    if: !startsWith('refs/tags/test01-v*')
+    if: ${{ !startsWith('refs/tags/test01-v*', github.ref) }}
 
     steps:
 
@@ -33,14 +33,12 @@ jobs:
           echo "No tiene un tag!!!"
           echo "referencia: ${{ github.ref }}"
 
-jobs:
-
-  build:
-    name: like a stage
+  jobTest2:
+    name: Testing the second job
     
     runs-on: ubuntu-latest
     
-    if: startsWith('refs/tags/test01-v*')
+    if: ${{ startsWith('refs/tags/test01-v*', github.ref) }}
 
     steps:
 
